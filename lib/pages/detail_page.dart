@@ -58,6 +58,8 @@ class ArticleDetailPage extends StatelessWidget {
                           arguments: article.url);
                     },
                     child: Text('Read More'))
+
+                //app
               ],
             ),
           )
