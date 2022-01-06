@@ -9,6 +9,7 @@ class NewListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         title: Text('NewsApp'),
       ),
       body: FutureBuilder<String>(
@@ -31,9 +32,12 @@ class NewListPage extends StatelessWidget {
       onTap: () => Navigator.pushNamed(context, ArticleDetailPage.routeName,
           arguments: articl),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      leading: Image.network(
-        articl.urlToImage,
-        width: 100,
+      leading: Hero(
+        tag: articl.urlToImage,
+        child: Image.network(
+          articl.urlToImage,
+          width: 100,
+        ),
       ),
       title: Text(articl.title),
       subtitle: Text(articl.author),

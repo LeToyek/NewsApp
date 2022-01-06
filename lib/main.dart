@@ -1,7 +1,11 @@
+import 'dart:ui';
+
 import 'package:dicoding/object/articles.dart';
 import 'package:dicoding/pages/article_web_page.dart';
 import 'package:dicoding/pages/detail_page.dart';
 import 'package:dicoding/pages/list_page.dart';
+import 'package:dicoding/style/color.dart';
+import 'package:dicoding/style/typography.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,8 +21,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+          colorScheme: Theme.of(context).colorScheme.copyWith(
+              primary: primaryColor,
+              onPrimary: Colors.black,
+              secondary: secondaryColor),
+          textTheme: myTextTheme,
           primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(
+                  primary: secondaryColor,
+                  onPrimary: Colors.white,
+                  textStyle: TextStyle(),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0))))),
       initialRoute: NewListPage.routeName,
       routes: {
         NewListPage.routeName: (context) => NewListPage(),

@@ -29,6 +29,7 @@ environment:
 dependencies:
 
   webview_flutter: ^2.0.4
+  google_fonts: ^2.2.0
   
   flutter:
     sdk: flutter
