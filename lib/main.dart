@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:dicoding/object/articles.dart';
+import 'package:dicoding/data/model/articles.dart';
 import 'package:dicoding/pages/article_web_page.dart';
 import 'package:dicoding/pages/detail_page.dart';
 import 'package:dicoding/pages/list_page.dart';
