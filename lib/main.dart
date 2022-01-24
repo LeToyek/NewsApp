@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:dicoding/data/model/articles.dart';
 import 'package:dicoding/pages/article_web_page.dart';
 import 'package:dicoding/pages/detail_page.dart';
+import 'package:dicoding/pages/home_page.dart';
 import 'package:dicoding/pages/list_page.dart';
 import 'package:dicoding/style/color.dart';
 import 'package:dicoding/style/typography.dart';
@@ -35,9 +36,9 @@ class MyApp extends StatelessWidget {
                   textStyle: TextStyle(),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(0))))),
-      initialRoute: NewListPage.routeName,
+      initialRoute: HomePage.routeName,
       routes: {
-        NewListPage.routeName: (context) => NewListPage(),
+        HomePage.routeName: (context) => HomePage(),
         ArticleDetailPage.routeName: (context) => ArticleDetailPage(
               article: ModalRoute.of(context)?.settings.arguments as Article,
             ),
