@@ -2,11 +2,14 @@
 
 import 'dart:io';
 
+import 'package:dicoding/data/api/api_service.dart';
+import 'package:dicoding/news_provider.dart';
 import 'package:dicoding/pages/list_page.dart';
 import 'package:dicoding/pages/settings_page.dart';
 import 'package:dicoding/widgets/platform_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home_page';
@@ -22,7 +25,9 @@ class _HomePageState extends State<HomePage> {
   static const String _headlineText = 'Headline';
 
   List<Widget> _listWidget = [
-    NewListPage(),
+    ChangeNotifierProvider(
+        create: (_) => NewsProvider(apiService: ApiService()),
+        child: NewListPage()),
     SettingsPage(),
   ];
 

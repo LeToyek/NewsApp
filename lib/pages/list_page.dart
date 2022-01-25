@@ -1,62 +1,69 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:dicoding/data/api/api_service.dart';
 import 'package:dicoding/data/model/articles.dart';
+import 'package:dicoding/news_provider.dart';
 import 'package:dicoding/pages/detail_page.dart';
 import 'package:dicoding/widgets/card_article.dart';
+import 'package:dicoding/widgets/platform_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class NewListPage extends StatefulWidget {
-  static const routeName = '/article_list';
-
-  @override
-  State<NewListPage> createState() => _NewListPageState();
-}
-
-class _NewListPageState extends State<NewListPage> {
-  late Future<ArticlesResult> _article;
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _article = ApiService().topHeadLines();
-  }
-
-  @override
-  Widget _buildList(BuildContext context) {
-    return FutureBuilder(
-      future: _article,
-      builder: (context, AsyncSnapshot<ArticlesResult> snapshot) {
-        var state = snapshot.connectionState;
-        if (state != ConnectionState.done) {
+class NewListPage extends StatelessWidget {
+  Widget _buildList() {
+    return Consumer<NewsProvider>(
+      builder: (context, state, _) {
+        if (state.state == ResultState.Loading) {
           return Center(
             child: CircularProgressIndicator(),
           );
+        } else if (state.state == ResultState.HasData) {
+          return ListView.builder(
+              shrinkWrap: true,
+              itemCount: state.result.articles.length,
+              itemBuilder: (context, index) {
+                var article = state.result.articles[index];
+                return CardArticle(article: article);
+              });
+        } else if (state.state == ResultState.NoData) {
+          return Center(
+            child: Text(state.message),
+          );
+        } else if (state.state == ResultState.Error) {
+          return Center(
+            child: Text(state.message),
+          );
         } else {
-          if (snapshot.hasData) {
-            return ListView.builder(
-                shrinkWrap: true,
-                itemCount: snapshot.data?.articles.length,
-                itemBuilder: (context, index) {
-                  var article = snapshot.data?.articles[index];
-                  return CardArticle(article: article!);
-                });
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text(snapshot.error.toString()),
-            );
-          } else {
-            return Text('');
-          }
+          return Center(
+            child: Text(''),
+          );
         }
       },
     );
   }
 
+  Widget _buildAndroid(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('News App'),
+      ),
+      body: _buildList(),
+    );
+  }
+
+  Widget _buildIOS(BuildContext context) {
+    return CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: Text('News App'),
+          transitionBetweenRoutes: false,
+        ),
+        child: _buildList());
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          title: Text('NewsApp'),
-        ),
-        body: _buildList(context));
+    // TODO: implement build
+    return PlatformWidget(androidBuilder: _buildAndroid, iosBuilder: _buildIOS);
   }
 }
